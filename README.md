@@ -60,3 +60,9 @@ The title format is: `$EMOJI ProjectName - Topic`
 
 - [Design document](docs/2025-11-14-terminal-title-skill-design.md)
 - [Implementation plan](docs/2025-11-14-terminal-title-implementation.md)
+
+---
+
+If Terminal Title helps you keep track of 12 open sessions, a ⭐ helps us know it's landing.
+
+Built by [2389](https://2389.ai) · Part of the [Claude Code plugin marketplace](https://github.com/2389-research/claude-plugins)
