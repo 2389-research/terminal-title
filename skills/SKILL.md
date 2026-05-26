@@ -1,6 +1,6 @@
 ---
 name: terminal-title
-description: MANDATORY at session start. REQUIRED when user topic shifts (debugging to docs, frontend to backend, new subject, different component). Claude MUST invoke on all topic changes.
+description: MANDATORY at session start. REQUIRED when user topic shifts (debugging to docs, frontend to backend, new subject, different component). The agent MUST invoke on all topic changes.
 ---
 
 <!-- ABOUTME: Terminal title skill that automatically updates terminal window title -->
@@ -32,27 +32,34 @@ Updates terminal window title to: `$TERMINAL_TITLE_EMOJI ProjectName - Topic`
 
 2. **Determine topic** — Short description (2-4 words) from current conversation context. Default to "Claude Code" at session start.
 
-3. **Execute script** — Use the skill base directory from the skill loading message:
+3. **Execute the title command.** Prefer the stable wrapper; fall back to the bundled script.
 
-   **Unix/macOS/Linux:**
+   **Preferred (cross-harness, stable approval surface):**
+   ```bash
+   set-terminal-title "ProjectName" "Topic"
+   ```
+
+   **Fallback (when the wrapper isn't installed):**
+
+   *Unix/macOS/Linux:*
    ```bash
    bash <skill-base-dir>/scripts/set_title.sh "ProjectName" "Topic"
    ```
 
-   **Windows:**
+   *Windows:*
    ```bash
    pwsh -NoProfile -ExecutionPolicy Bypass -File <skill-base-dir>/scripts/set_title.ps1 "ProjectName" "Topic"
    ```
 
-   The script reads `$TERMINAL_TITLE_EMOJI` from environment (defaults to 🎉) and sends terminal escape sequences.
+   The script reads `$TERMINAL_TITLE_EMOJI` from the environment (defaults to 🎉) and writes terminal escape sequences. If neither command is available or the call fails, skip silently — do not surface the failure to the user.
 
-4. **Continue silently** — Don't mention the title update unless user asks.
+4. **Continue silently** — Don't mention the title update unless the user asks.
 
 ## Example
 
-User starts Claude Code in `/Users/dev/work/oneonone/hosting` with `TERMINAL_TITLE_EMOJI=💼`, conversation is about Firebase config:
+A session opens in `/Users/dev/work/oneonone/hosting` with `TERMINAL_TITLE_EMOJI=💼`, conversation is about Firebase config:
 
 ```bash
-bash <skill-base-dir>/scripts/set_title.sh "OneOnOne" "Firebase Config"
+set-terminal-title "OneOnOne" "Firebase Config"
 # Result: 💼 OneOnOne - Firebase Config
 ```
