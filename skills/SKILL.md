@@ -1,6 +1,6 @@
 ---
 name: terminal-title
-description: MANDATORY at session start. REQUIRED when user topic shifts (debugging to docs, frontend to backend, new subject, different component). The agent MUST invoke on all topic changes.
+description: Keeps the terminal window title set to emoji + project + current topic so parallel sessions are identifiable at a glance. Use when a session starts, the conversation topic materially shifts, or the user asks to update the terminal title.
 ---
 
 <!-- ABOUTME: Terminal title skill that automatically updates terminal window title -->
@@ -43,12 +43,12 @@ Updates terminal window title to: `$TERMINAL_TITLE_EMOJI ProjectName - Topic`
 
    *Unix/macOS/Linux:*
    ```bash
-   bash <skill-base-dir>/scripts/set_title.sh "ProjectName" "Topic"
+   bash "${CLAUDE_SKILL_DIR}/scripts/set_title.sh" "ProjectName" "Topic"
    ```
 
    *Windows:*
    ```bash
-   pwsh -NoProfile -ExecutionPolicy Bypass -File <skill-base-dir>/scripts/set_title.ps1 "ProjectName" "Topic"
+   pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_SKILL_DIR}/scripts/set_title.ps1" "ProjectName" "Topic"
    ```
 
    The script reads `$TERMINAL_TITLE_EMOJI` from the environment (defaults to 🎉) and writes terminal escape sequences. If neither command is available or the call fails, skip silently — do not surface the failure to the user.
